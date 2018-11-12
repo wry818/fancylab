@@ -9,5 +9,5 @@ test:
   host: localhost
 production:
   adapter: postgresql
-  database: fancylab_dev
+  database: fancylab
   host: localhost
