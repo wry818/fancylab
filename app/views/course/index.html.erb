@@ -1,0 +1,84 @@
+<style>
+.bx-wrapper {
+	border: 0px solid transparent !important;
+	box-shadow: none !important;
+	margin-bottom: 5px !important;
+}
+
+.bx-wrapper .bx-pager {
+	bottom: 10px !important;
+}
+
+.bx-pager-link.active {
+	background-color: rgb(0, 122, 255) !important;
+}
+
+</style>
+
+<div id="course_home">
+	<div class="bxslider-container">
+		<div id="bxslider" class="bxslider">
+			<% @advertisement_images.each do |advertisement_image| %>
+  		  		<div>
+                    <%= cl_image_tag advertisement_image.image_id %>
+  		  		</div>
+			<% end %>
+		</div>
+	</div>
+	<div class="memberPart">
+	    <table class="table table-borderless" style="height: 40px;">
+	      <tr>
+	        <td style="width: 50%; padding: 6px; padding-left:0;">
+	          <span class="partTitle fbold">课程列表</span> 
+	        </td>
+	        <td style="padding: 6px; padding-right:0; text-align:right">
+	          <span class="selectAll fs-11 cgrey">查看全部 &gt; </span>
+	        </td>
+	      </tr>
+	    </table>
+		<table class="table table-borderless m-b-none course-list-view">
+			<tbody>
+				<% @courses.each do |course| %>
+					<tr class="course-item">
+					  <td class="td1">
+	                    <%= cl_image_tag course.image_id, :width => 160, :crop => "scale", class: "logo" %>
+					  </td>
+					  <td class="td2">
+						<div class="font-extra-bold fs-14"><%= course.name %></div>
+						<div class="course-desc mbottom10 fs-11 cgrey">
+							<%= course.introduction %>
+						</div>
+						<div class="course-num-wrapper clearfix">
+							<span class="course-num fs-11 cgrey pright3">
+								已更新<%= course.issue_count %>期
+							</span> 
+							<span class="course-subscriber fs-11 cgrey columnBorderLeft">
+								<%= course.subscriber_count %>人开通
+							</span>
+							<span class="course-price fs-11 cred">
+								￥<%= course.base_price.ceil %>
+							</span>
+						</div>
+					  </td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
+		<div style="height: 40px;">
+		</div>
+	</div>
+</div>
+
+<script>
+$(document).ready(function(){
+	
+  $("#bxslider").bxSlider({
+  	auto: true,
+	pager: true,
+	controls: false,
+	preloadImages: "visible",
+	  pause: 2000
+  });
+  
+});
+</script>

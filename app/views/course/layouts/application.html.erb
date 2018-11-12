@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>奇妙实验室</title>
+	<meta name="description" content="奇妙实验室" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="apple-mobile-web-app-title" content="奇妙实验室">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+	
+    <%= csrf_meta_tags %>
+	<%= favicon_link_tag 'favicon.ico' %>
+	<link rel="apple-touch-icon" href="<%= image_url 'apple-touch-icon.png?v=3' %>" />
+	
+	<%= stylesheet_link_tag "application", media: "all" %>
+    <%= javascript_include_tag "application" %>
+	
+</head>
+<body>
+	<div id="divErrorMessage" class="alert" style="max-width: 340px; display: none">
+	</div>
+
+	<div class="container">
+		<%= yield %>
+	</div>
+	
+</body>
+</html>

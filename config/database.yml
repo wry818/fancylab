@@ -1,0 +1,13 @@
+development:
+  adapter: postgresql
+  database: fancylab_dev
+  # database: 11hao_dev
+  host: localhost
+test:
+  adapter: postgresql
+  database: fancylab_test
+  host: localhost
+production:
+  adapter: postgresql
+  database: fancylab_dev
+  host: localhost

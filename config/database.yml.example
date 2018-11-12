@@ -1,0 +1,9 @@
+development:
+  adapter: postgresql
+  database: fancylab_dev
+  host: localhost
+
+test:
+  adapter: postgresql
+  database: fancylab_test
+  host: localhost
