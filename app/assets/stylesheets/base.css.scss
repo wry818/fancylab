@@ -41,7 +41,11 @@ $entertainment-orange-hover: rgb(241, 141, 55);
 $entertainment-lightgreen: rgb(168, 193, 51);
 $entertainment-lightgreen-hover: rgb(190, 211, 88);
 $light-grey: rgb(142, 148, 153);
-$grey: rgb(114, 113, 113);
+$black: #353535;
+$grey: #888;
+$grey2: #969696;
+$grey-line: #f0f0f0;
+$green: #09bb07;
 
 html, body {
     //height: 100%;
@@ -49,7 +53,11 @@ html, body {
 	font-size: 16px;
 	//font-family: 黑体, "Microsoft YaHei", 微软雅黑, "Open Sans", sans-serif;
 	font-family: PingFangSC,Helvetica,Tahoma,Arial,Hiragino Sans GB,Hiragino Sans GB W3,Microsoft Yahei,STXihei,STHeiti,Heiti,SimSun,sans-serif!important;
-	background-color: #69696b;
+	
+	@media (min-width: 750px) {
+		background-color: #69696b;
+	}
+	
 }
 
 .container {
@@ -66,12 +74,17 @@ input, .select2-container, #footer {
 //    font-family: "Open Sans", sans-serif;
 //}
 
-p {
-    line-height: 1.5;
+//p {
+//    line-height: 1.5;
+//}
+
+div {
+	display: block;
 }
 
 h1, h2, h3, h4, h5 {
     //color: #30263a;
+	margin: 0;
 }
 
 video {
@@ -81,6 +94,11 @@ video {
 img.heart {
 	vertical-align: top;
 	//margin-top: 3px;
+}
+
+button {
+	border: 0;
+	padding: 0;
 }
 
 .times {
@@ -434,12 +452,20 @@ label.error {
 	clear: both;
 }
 
+.hidden {
+	display: none;
+}
+
 .fbold {
 	font-weight: bold;
 }
 
 .fs-11 {
   font-size: 11px;
+}
+
+.fs-12 {
+  font-size: 12px;
 }
 
 .fs-13 {
@@ -482,8 +508,12 @@ label.error {
   font-size: 40px;
 }
 
+.cblack {
+	color: #353535;
+}
+
 .cgrey {
-	color: #888;
+	color: $grey;
 }
 
 .cred {
@@ -492,6 +522,10 @@ label.error {
 
 .mtop0 {
   margin-top: 0px;
+}
+
+.mtop5 {
+  margin-top: 5px;
 }
 
 .mtop10 {
@@ -508,6 +542,10 @@ label.error {
 
 .mtop16 {
   margin-top: 16px;
+}
+
+.mtop20 {
+  margin-top: 20px;
 }
 
 .mtop22 {
@@ -540,6 +578,10 @@ label.error {
 
 .mbottom0 {
   margin-bottom: 0px !important;
+}
+
+.mbottom5 {
+  margin-bottom: 5px;
 }
 
 .mbottom8 {
@@ -586,6 +628,14 @@ label.error {
 
 .ptop0{
   padding-top: 0px;
+}
+
+.ptop5{
+  padding-top: 5px;
+}
+
+.ptop10{
+  padding-top: 10px;
 }
 
 .ptopbottom0 {
@@ -638,17 +688,72 @@ label.error {
   padding-right: 3px;
 }
 
-.memberPart {
+.columnBorderLeft {
+  padding-left: 5px;
+  border-left:1px solid #b2b2b2;
+}
+
+.container-width-limit {
+	width: 100%;
+	max-width: 750px;
+	margin: auto;
+}
+
+.border-heihgt {
+	height: 7.5px;
+	background: #e0e0e6;
+}
+
+.icon-hide {
+	transform: rotate(180deg);
+}
+
+.icon-sh {
+	height: 12px;
+	width: 12px;
+	vertical-align: middle;
+}
+
+.tab {
 	
-	padding-left: 15px;
-	padding-right: 15px;
+	border-bottom: 1px solid #f3f3f3;
+	color: $grey;
 	
-	.selectAll {
-		@include fontSize11px;
+	td {
+		&:hover {
+			  cursor: pointer;
+		}
 	}
 	
-	.course-item {
+	.selected {
+		color: $black;
+	}
+	
+	.selected::after {
+    	content: ""; /* This is necessary for the pseudo element to work. */ 
+    	display: block; /* This will put the pseudo element on its own line. */
+    	margin: 0 auto; /* This will center the border. */
+    	width: 50%; /* Change this to whatever width you want. */
+    	border-bottom: 3px solid $green; /* This creates the border. Replace black with whatever color you want. */
+	}
+
+}
+
+.description img {
+	display: block;
+	max-width: 100%;
+	margin: auto;
+}
+
+.course-list-view {
+	
+	.list-item {
+		
 	  border-bottom: 1px solid #f3f3f3;
+
+      &:hover {
+          cursor: pointer;
+      }
 	  
 	  .logo {
 	    max-height: 60px;
@@ -657,6 +762,7 @@ label.error {
 	  }
 	  
 	  .course-desc {
+		  
 	    display: block;
 	    display: -webkit-box;
 	    -webkit-box-orient: vertical;
@@ -664,11 +770,6 @@ label.error {
 	    line-height: 1.2em;
 	    overflow: hidden;
 	    text-overflow: ellipsis;
-	  }
-	  
-	  .columnBorderLeft {
-		  padding-left: 5px;
-		  border-left:1px solid #b2b2b2;
 	  }
 	  
 	  .course-price {
@@ -696,9 +797,247 @@ label.error {
 	  }
   
 	}
-
+	
 	.jscroll-added:last-child .offer-item:last-child {
 	  border-bottom: none;
+	}
+	
+}
+
+.detail-data {
+	padding-bottom: 15px;
+	overflow: hidden;
+	
+	.detail-num-wrapper {
+		float: left;
+		
+		.detail-num-img {
+			width: 12px;
+			height: 12px;
+			vertical-align: middle;
+		}
+		
+		.detail-num {
+			line-height: 15px;
+			display: inline-block;
+			vertical-align: middle;
+		}
+		
+	}
+}
+
+.memberPart {
+	
+	padding-left: 15px;
+	padding-right: 15px;
+	
+	.selectAll {
+		@include fontSize11px;
+	}
+	
+}
+
+#course_detail {
+	
+	.course-head-pic {
+		width: 100%;
+		display: block;
+	}
+	
+	.course-head-wrapper {
+		padding: 0 15px;
+		
+		.course-head-info {
+			border-bottom: 1px solid $grey-line;
+		}
+		
+	}
+	
+	.aside {
+		padding: 0 15px;
+		position: relative;
+		min-height: 1px;
+		background-color: white;
+		
+		.description {
+			position: relative;
+			padding: 0 0 8px;
+			clear: both;
+			word-break: break-all;
+			
+			.desc {
+				padding-top: 5px;
+			}
+			
+		}
+	}
+	
+	.pay-wrap {
+		position: fixed;
+		bottom: 0;
+		text-align: center;
+		padding: 7.5px 0;
+		background: #fff;
+		box-shadow: 0 0 2px rgba(0,0,0,.2);
+		border-top: 1px solid #dedede;
+		z-index: 100;
+		left: 0;
+		right: 0;
+		margin: auto;
+		
+		.pay-btn {
+			width: 70%;
+			color: #fff;
+			background-color: $green;
+			height: 38px;
+			border-radius: 5px;
+			outline: none;
+			cursor: pointer;
+			line-height: 18px;
+		}
+		
+	}
+	
+	.open {
+		cursor: pointer;
+		background-color: transparent;
+		text-align: center;
+		margin-top: 5px;
+		margin-bottom: 50px;
+	}
+	
+	.item-header {
+		padding: 0 15px;
+		
+		.item-header-box {
+			padding-top: 15px;
+		}
+		
+	}
+	
+	.content-list {
+		
+		padding: 0 15px;
+		
+		.content-pic-wrapper {
+			overflow: hidden;
+			position: relative;
+			width: 80px;
+			height: 60px;
+			margin-right: 10px;
+		
+			.srcType {
+				position: absolute;
+				right: 5px;
+				top: 35px;
+				width: 21px;
+				height: 21px;
+				z-index: 9;
+			}
+			
+		}
+		
+		.content-littleIcon {
+			float: left;
+			height: 12px;
+			width: 12px;
+			margin-right: 3px;
+			margin-top: 1.5px;
+		}
+		
+		.content-num {
+			float: left;
+			height: 15px;
+			line-height: 15px;
+		}
+		
+		.content-time {
+			float: right;
+			height: 15px;
+			line-height: 15px;
+		}
+		
+	}
+	
+}
+
+#imgtext_detail {
+	background-color: #fff;
+	margin: auto;
+	padding: 0 15px;
+	display: block;
+	
+	.article {
+		display: block;
+		word-wrap: break-word;
+		padding-top: 15px;
+		
+		.article-title {
+			padding-bottom: 5px;
+			line-height: 1.4;
+			font-weight: 700;
+			line-height: 1.3;
+			font-size: 20px;
+			display: block;
+		}
+		
+		.author {
+			display: block;
+			
+			.article-meta {
+				margin-top: 5px;
+				font-size: 12px;
+				color: $grey2;
+				display: block;
+			}
+		}
+		
+		.article-content {
+			margin-top: 15px;
+			margin-bottom: 15px;
+			color: #2f2f2f;
+			font-size: 16px;
+			font-weight: 400;
+			line-height: 1.7;
+			display: block;
+			overflow: hidden;
+			white-space: normal;
+		}
+		
+		img {
+			max-width: 100%;
+		}
+		
+	}
+}
+
+#video_detail {
+	
+	background-color: #fff;
+	margin: auto;
+	display: block;
+	
+	.content-box {
+		padding-top: 7.5px;
+		padding: 0 15px;
+		
+		.detail-title {
+			word-wrap: break-word;
+			margin-top: 10px;
+			line-height: 25px;
+			margin-bottom: 10px;
+		}
+		
+		.detail-data {
+			border-bottom: 1px solid $grey-line;
+			
+			.detailHeadNum {
+				margin-bottom: 0;
+				height: 28px;
+			}
+			
+		}
+		
 	}
 	
 }

@@ -7,6 +7,9 @@ FancyLab::Application.routes.draw do
     # Course
     scope 'course' do
       root 'course#index', as: :course_index
+      get 'detail/:id', to: 'course#detail', as: :course_detail
+      get 'imgtext_detail/:id', to: 'course#imgtext_detail', as: :imgtext_detail
+      get 'video_detail/:id', to: 'course#video_detail', as: :video_detail
     end
 
     get 'fancylab/videolike/:id', to: 'fancy#video_like', as: :fancy_videolike

@@ -39,13 +39,13 @@
 		<table class="table table-borderless m-b-none course-list-view">
 			<tbody>
 				<% @courses.each do |course| %>
-					<tr class="course-item">
+					<tr class="list-item" data-id="<%= course[:id] %>" data-url="<%= course_detail_path course.slug %>">
 					  <td class="td1">
-	                    <%= cl_image_tag course.image_id, :width => 160, :crop => "scale", class: "logo" %>
+	                    <%= cl_image_tag course.cover_image_id, :width => 160, :crop => "scale", class: "logo" %>
 					  </td>
 					  <td class="td2">
-						<div class="font-extra-bold fs-14"><%= course.name %></div>
-						<div class="course-desc mbottom10 fs-11 cgrey">
+						<div class="font-extra-bold fs-14"><%= course.title %></div>
+						<div class="course-desc mbottom10 fs-12 cgrey">
 							<%= course.introduction %>
 						</div>
 						<div class="course-num-wrapper clearfix">
@@ -55,7 +55,7 @@
 							<span class="course-subscriber fs-11 cgrey columnBorderLeft">
 								<%= course.subscriber_count %>人开通
 							</span>
-							<span class="course-price fs-11 cred">
+							<span class="course-price fs-11 cred ptop5">
 								￥<%= course.base_price.ceil %>
 							</span>
 						</div>
@@ -78,6 +78,12 @@ $(document).ready(function(){
 	controls: false,
 	preloadImages: "visible",
 	  pause: 2000
+  });
+  
+  $(".list-item").off("click").click(function () {
+     var url = $(this).data("url");
+     
+     self.location.href = url;
   });
   
 });

@@ -1,0 +1,153 @@
+<div id="course_detail">
+	<div>
+		<%= cl_image_tag @course.cover_image_id, class: "course-head-pic" %>
+	</div>
+	
+	<div class="course-head-wrapper">
+		<div class="course-head-info ptop10">
+			<div class="mtop5 mbottom5 cblack">
+				<span><%= @course.title %></span>
+			</div> 
+			<div class="mbottom10">
+				<div class="detailHeadData">
+					<div class="fs-12 cblack columnist-head-desc">
+						<%= @course.introduction %>
+					</div> 
+					<div class="mtop5">
+						<span class="columnist-detail-num fs-12 cgrey"> 已更新<%= @course.issue_count %>期 </span>
+						 <span class="columnist-subscriber fs-12 cgrey columnBorderLeft"> <%= @course.subscriber_count %>人订阅 </span>
+					 </div>
+				 </div>
+			 </div>
+		 </div>
+	 </div>
+	 <div class="border-heihgt"></div>
+    <table class="table table-borderless tab">
+      <tr>
+        <td class="tab-item tab1 selected" style="padding:0; width: 50%; padding-left:0; text-align:center" tab-index="1">
+          <div style="height: 40px; padding-top: 10px">详情</div>
+        </td>
+        <td class="tab-item tab2" style="padding:0; padding-right:0; text-align:center" tab-index="2">
+          <div style="height: 40px; padding-top: 10px">目录</div>
+        </td>
+      </tr>
+    </table>
+	 <div tab-item="1" class="tab-content aside">
+		 <div class="description js-description mbottom30">
+			 <div class="desc">
+				 <div>
+                     <% if @course.description && @course.description.length > 0 %>
+					 	 <%= @course.description.html_safe %>
+					 <% else %>	 
+						暂无描述
+                     <% end %>
+				 </div>
+				 <!-- <div class="open fs-12 cgrey">
+					 <span>收起描述</span>
+					 <%= image_tag "showOrhide.png", class: "icon-sh icon-hide" =%>
+				 </div> -->
+			 </div>
+		 </div>
+	 <div class="container-width-limit pay-wrap">
+		 <button class="pay-btn t1 PressGreenBg">购买课程：￥<%= long_price(@course.base_price) %></button>
+	 </div>
+	 </div>
+	 <div tab-item="2" class="tab-content hidden">
+         <% if @sub_courses && @sub_courses.count > 0 %>
+			 <div class="item-header">
+				 <div class="item-header-box t3 c2 clearfix">
+				 	<span class="t1 c2">内容</span>
+				</div>
+			 </div>
+			 <div class="content-list">
+		  		<table class="table table-borderless m-b-none course-list-view">
+		  			<tbody>
+		  				<% @sub_courses.each do |sub_course| %>
+						
+						   <% if sub_course.course_type == SubCourse::Graphic %>
+						   <tr class="list-item" data-id="<%= sub_course[:id] %>" data-url="<%= imgtext_detail_path sub_course.slug %>">
+						   <% else %>
+						  	<tr class="list-item" data-id="<%= sub_course[:id] %>" data-url="<%= video_detail_path sub_course.slug %>">
+						   <% end %>
+							
+		  					  <td class="td1">
+								  <div class="content-pic-wrapper">
+									  
+									  <% if sub_course.course_type == SubCourse::Graphic %>
+									  	<%= image_tag "icon_tuwenb.png", class: "srcType" =%>
+									  <% else %>
+									  	<%= image_tag "icon_shipinb.png", class: "srcType" =%>
+									  <% end %>
+									  
+									  <%= image_tag sub_course.cover_image_id, class: "logo" =%>
+								  </div>
+		  					  </td>
+		  					  <td class="td2">
+		  						<div class="font-extra-bold fs-14">
+									<%= sub_course.title %>
+								</div>
+		  						<div class="course-num-wrapper mtop20 clearfix">
+								  	<% if sub_course.course_type == SubCourse::Graphic %>
+								  		<%= image_tag "icon_yueduliang.png", class: "content-littleIcon" =%>
+								  	  <% else %>
+								  		<%= image_tag "icon_playNum.png", class: "content-littleIcon" =%>
+								  	<% end %>
+									
+									<div class="content-num fs-11 cgrey"> 
+										<%= sub_course.browser_count %>
+									</div>
+	  								<span class="content-time fs-11 cgrey">
+	  									<%= sub_course.created_at.strftime("%Y-%m-%d") %>
+	  								</span>
+		  						</div>
+		  					  </td>
+		  					</tr>
+		  				<% end %>
+		  			</tbody>
+		  		</table>
+			 </div>
+		 <% else %>
+   			 <div class="item-header mbottom30" style="padding-top: 5px">
+   				 <span class="t1 c2">暂无课程</span>
+   			 </div>
+         <% end %>
+		 
+	 </div>
+</div>
+
+<script>
+	
+$(document).ready(function(){
+	
+  // $(".open").click(function () {
+  //     if (!$(this).hasClass('active')) {
+  //
+  // 		  $(".open").text(收起描述);
+  //
+  //     } else {
+  //
+  // 		  $(".open").text(展开描述);
+  //
+  //     }
+  // });
+  
+  $(".tab-item").click(function () {
+	  
+	  $(".tab td").removeClass("selected");
+	  $(this).addClass('selected');
+	  var tab_index = $(this).attr("tab-index");
+	  
+	  $(".tab-content").addClass("hidden");
+	  $(".tab-content[tab-item='" + tab_index + "']" ).removeClass("hidden");
+	  
+  });
+  
+  $(".list-item").off("click").click(function () {
+     var url = $(this).data("url");
+     
+     self.location.href = url;
+  });
+  
+});
+
+</script>
