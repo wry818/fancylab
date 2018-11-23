@@ -101,6 +101,110 @@ button {
 	padding: 0;
 }
 
+a:hover { 
+	text-decoration: none; 
+}
+
+#wx_pay_modal {
+
+	.modal-dialog {
+		width: 350px;
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		margin-top: -185px;
+		margin-left: -175px;
+		text-align: center;
+	}
+
+	.modal-header {
+		padding: 15px 20px 0;
+		border-bottom: none;
+	
+		button.close {
+		
+			padding: 0;
+			cursor: pointer;
+			background: transparent;
+			border: 0;
+			-webkit-appearance: none;
+			font-weight: 200;
+			font-size: 20px;
+			outline: none;
+			text-shadow: none;
+			opacity: 1;
+		
+		}
+	
+	}
+
+	.modal-body {
+
+		text-align: center;
+	
+		.wx-qr-code {
+		
+			h3 {
+				font-size: 16px;
+				font-weight: bold;
+				margin-bottom: 20px;
+				color: #787878;
+			}
+		
+			img {
+				padding: 10px;
+				width: 200px;
+				background-color: #fff;
+			}
+		
+		}
+	
+		.pay-amount {
+			margin: 20px 0;
+			color: #787878;
+		
+			span {
+				color: #f5a623;
+			}
+		
+		}
+	
+	}
+	
+}
+
+.bx-wrapper {
+	border: 0px solid transparent !important;
+	box-shadow: none !important;
+	margin-bottom: 5px !important;
+}
+
+.bx-wrapper .bx-pager {
+	bottom: 10px !important;
+}
+
+.bx-pager-link.active {
+	background-color: rgb(0, 122, 255) !important;
+}
+
+.overlay {
+	background-color:black; 
+	padding: 20px; 
+	border-radius: 10px;
+	
+	.exclamation_circle_icon {
+		width: 24px;
+		height: 24px;
+	}
+	
+	p {
+		font-size: 14px; 
+		color: white; 
+		padding-top: 10px;
+	}
+	
+}
+
 .times {
 	font-size: 12px !important;
 }
@@ -745,6 +849,31 @@ label.error {
 	margin: auto;
 }
 
+.noContentWrapper {
+	
+	padding: 0 15px;
+	background-color: #fff;
+	
+	.noContentTips {
+		
+		text-align: center;
+		overflow: hidden;
+		
+		.noContentImg {
+			width: 100px;
+			height: 100px;
+			margin-top: 10px;
+		}
+		
+		.noContentWord {
+			margin-top: 10px;
+			margin-bottom: 25px;
+		}
+		
+	}
+	
+}
+
 .course-list-view {
 	
 	.list-item {
@@ -894,6 +1023,11 @@ label.error {
 			outline: none;
 			cursor: pointer;
 			line-height: 18px;
+			
+			&:disabled {
+			   opacity: 0.4; 
+			}
+			
 		}
 		
 	}
@@ -1036,6 +1170,17 @@ label.error {
 				height: 28px;
 			}
 			
+		}
+		
+		.desc {
+			line-height: 1.4;
+			padding: 10px;
+			overflow: hidden;
+			white-space: normal;
+		}
+		
+		img {
+			max-width: 100%;
 		}
 		
 	}

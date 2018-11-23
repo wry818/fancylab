@@ -1,25 +1,36 @@
 <div id="imgtext_detail">
-	<div class="article">
-		<h1 class="article-title">
-			<%= @sub_course.title %>
-		</h1> 
-		<div class="author">
-			<div class="article-meta">
-				<span><%= @sub_course.created_at.strftime("%Y-%m-%d %H:%M:%S") %></span>
-			</div>
-		</div> 
-		<div class="article-content clearfix">
-			<%= @sub_course.description.html_safe %>
-		</div>
-		<div class="detail-data cleafix">
-			<div class="detail-num-wrapper fs-11 cgrey">
-				<%= image_tag "icon_yueduliang.png", class: "detail-num-img" =%>
-				<div class="detail-num"> 
-					<%= @sub_course.browser_count %>
+ 	<% if @bought %>
+		<div class="article">
+			<h1 class="article-title">
+				<%= @sub_course.title %>
+			</h1>
+			<div class="author">
+				<div class="article-meta">
+					<span><%= @sub_course.created_at.strftime("%Y-%m-%d %H:%M:%S") %></span>
 				</div>
+			</div> 
+			<div class="article-content clearfix">
+				<%= @sub_course.description.html_safe %>
 			</div>
+			<!-- <div class="detail-data cleafix">
+				<div class="detail-num-wrapper fs-11 cgrey">
+					<%= image_tag "icon_yueduliang.png", class: "detail-num-img" =%>
+					<div class="detail-num">
+						<%= @sub_course.browser_count %>
+					</div>
+				</div>
+			</div> -->
 		</div>
-	</div> 
+	<% else %>
+		<div class="article">
+			<h1 class="article-title">
+				<%= @sub_course.title %>
+			</h1>
+			<div class="author fs-14 cgrey pbottom30">
+				此内容需购买课程后才能观看
+			</div>
+		</div>	
+	<% end %>
 </div>
 
 <script>

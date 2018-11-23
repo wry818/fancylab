@@ -15,7 +15,7 @@
 					</div> 
 					<div class="mtop5">
 						<span class="columnist-detail-num fs-12 cgrey"> 已更新<%= @course.issue_count %>期 </span>
-						 <span class="columnist-subscriber fs-12 cgrey columnBorderLeft"> <%= @course.subscriber_count %>人订阅 </span>
+						 <!-- <span class="columnist-subscriber fs-12 cgrey columnBorderLeft"> <%= @course.subscriber_count %>人订阅 </span> -->
 					 </div>
 				 </div>
 			 </div>
@@ -39,7 +39,14 @@
                      <% if @course.description && @course.description.length > 0 %>
 					 	 <%= @course.description.html_safe %>
 					 <% else %>	 
-						暂无描述
+						<div class="noContentWrapper">
+							<div class="noContentTips">
+								<%= image_tag "pic_kong.png", class: "noContentImg" =%>
+								<p class="noContentWord cgrey t2">
+									等待更新
+								</p>
+							</div>
+						</div>
                      <% end %>
 				 </div>
 				 <!-- <div class="open fs-12 cgrey">
@@ -48,9 +55,16 @@
 				 </div> -->
 			 </div>
 		 </div>
-	 <div class="container-width-limit pay-wrap">
-		 <button class="pay-btn t1 PressGreenBg">购买课程：￥<%= long_price(@course.base_price) %></button>
-	 </div>
+		 
+    	 <% if !@bought %>
+	 		<div class="container-width-limit pay-wrap">
+		 		<button type="button" class="pay-btn t1 PressGreenBg">
+	                <span class="text" data-text="购买课程：￥<%= long_price(@course.base_price) %>">
+	                    购买课程：￥<%= long_price(@course.base_price) %>
+	                </span>
+		 		</button>	
+	 		</div>
+		 <% end %>
 	 </div>
 	 <div tab-item="2" class="tab-content hidden">
          <% if @sub_courses && @sub_courses.count > 0 %>
@@ -65,9 +79,9 @@
 		  				<% @sub_courses.each do |sub_course| %>
 						
 						   <% if sub_course.course_type == SubCourse::Graphic %>
-						   <tr class="list-item" data-id="<%= sub_course[:id] %>" data-url="<%= imgtext_detail_path sub_course.slug %>">
+						   <tr class="list-item" data-id="<%= sub_course[:id] %>" data-url="<%= imgtext_detail_path(@course.slug, id: sub_course.slug) %>">
 						   <% else %>
-						  	<tr class="list-item" data-id="<%= sub_course[:id] %>" data-url="<%= video_detail_path sub_course.slug %>">
+						  	<tr class="list-item" data-id="<%= sub_course[:id] %>" data-url="<%= video_detail_path(@course.slug, id: sub_course.slug) %>">
 						   <% end %>
 							
 		  					  <td class="td1">
@@ -87,15 +101,15 @@
 									<%= sub_course.title %>
 								</div>
 		  						<div class="course-num-wrapper mtop20 clearfix">
-								  	<% if sub_course.course_type == SubCourse::Graphic %>
+								  	<!-- <% if sub_course.course_type == SubCourse::Graphic %>
 								  		<%= image_tag "icon_yueduliang.png", class: "content-littleIcon" =%>
 								  	  <% else %>
 								  		<%= image_tag "icon_playNum.png", class: "content-littleIcon" =%>
 								  	<% end %>
-									
-									<div class="content-num fs-11 cgrey"> 
+
+									<div class="content-num fs-11 cgrey">
 										<%= sub_course.browser_count %>
-									</div>
+									</div> -->
 	  								<span class="content-time fs-11 cgrey">
 	  									<%= sub_course.created_at.strftime("%Y-%m-%d") %>
 	  								</span>
@@ -107,8 +121,15 @@
 		  		</table>
 			 </div>
 		 <% else %>
-   			 <div class="item-header mbottom30" style="padding-top: 5px">
-   				 <span class="t1 c2">暂无课程</span>
+   			 <div class="item-header mbottom30">
+				<div class="noContentWrapper">
+					<div class="noContentTips">
+						<%= image_tag "pic_kong.png", class: "noContentImg" =%>
+						<p class="noContentWord cgrey t2">
+							等待更新
+						</p>
+					</div>
+				</div>
    			 </div>
          <% end %>
 		 
@@ -118,7 +139,7 @@
 <script>
 	
 $(document).ready(function(){
-	
+
   // $(".open").click(function () {
   //     if (!$(this).hasClass('active')) {
   //
@@ -143,11 +164,165 @@ $(document).ready(function(){
   });
   
   $(".list-item").off("click").click(function () {
-     var url = $(this).data("url");
+	  
+	 if (<%= @bought %>) {
+		 
+	     var url = $(this).data("url");
      
-     self.location.href = url;
+	     self.location.href = url;
+		 
+     } else {
+     	 
+	     // var url = $(this).data("url");
+	     //
+	     // self.location.href = url;
+		 
+	     window.Fancylab.AlertWindow($('#buy_alert'));
+		 
+     } 
+     
   });
   
 });
+
+if (<%= !@bought %>) {
+	
+    if (<%= @is_wechat_browser %>) {
+    	
+		if (typeof WeixinJSBridge == "undefined") {
+		  if (document.addEventListener) {
+		    document.addEventListener('WeixinJSBridgeReady', onBridgeReady, false);
+		  } else if (document.attachEvent) {
+		    document.attachEvent('WeixinJSBridgeReady', onBridgeReady);
+		    document.attachEvent('onWeixinJSBridgeReady', onBridgeReady);
+		  }
+		} else {
+		  onBridgeReady();
+		}
+		
+    } else {
+    	loadNativePay();
+    }
+	
+}
+
+function onBridgeReady() {
+	bind_paybutton_click();
+}
+
+function loadNativePay() {
+
+	$('.pay-btn').click(function () {
+		
+		// window.location.reload();
+		var $wx_pay_modal = $('#wx_pay_modal');
+	    $wx_pay_modal.modal('show');
+		
+	});
+	
+	$(window).on('shown.bs.modal', function() { 
+		
+	    $.ajax({
+			method: "POST",
+			data: {
+				total_fee: 1
+		  	},	
+	      url: "/ajax/weixin_native_payment_req",
+	      dataType: "json",
+	      cache: false,
+	      success: function (d) {
+
+	        if (d && d.code == 200) {
+				
+				$('#wx_pay_qrcode_image').show();
+				$('#wx_pay_qrcode_image').attr('src', d.qr_url);
+				
+
+	        } else {
+
+				window.Fancylab.Alert("系统忙，请稍候再试。");
+
+	        }
+	      },
+	      error:function(XMLHttpRequest, textStatus, errorThrown) {
+			  window.Fancylab.Alert("系统忙，请稍候再试。");
+		  }
+
+	    });
+		
+	});
+	
+	$(window).on('hidden.bs.modal', function() { 
+		$('#wx_pay_qrcode_image').hide();
+	});
+	
+}
+
+function bind_paybutton_click()
+{
+  $('.pay-btn').click(function () {
+	  
+	var $button=$(this);
+	var btn_text=$button.find('span.text').data("text");
+	
+	$button.prop('disabled', true).find('span.text').text('处理中，请稍候...');
+	
+    $.ajax({
+		method: "POST",
+		data: {
+			total_fee: 1
+	  	},	
+      url: "/ajax/weixin_payment_req",
+      dataType: "json",
+      cache: false,
+      success: function (d) {
+
+// alert("  "+ d.appId+"  "+ d.timeStamp+"  "+ d.nonceStr+"  "+ d.package+"  "+ d.paySign);
+
+        if (d && d.code == 200) {
+
+             WeixinJSBridge.invoke('getBrandWCPayRequest', {
+               "appId": d.appId,     //公众号名称，由商户传入
+               "timeStamp": d.timeStamp,         //时间戳，自1970年以来的秒数
+               "nonceStr": d.nonceStr, //随机串
+               "package": d.package,
+               "signType": "MD5",         //微信签名方式:
+               "paySign": d.paySign //微信签名
+             }, function (res) {
+   //                alert(res.err_msg);
+   //            alert(res.err_code + res.err_desc + res.err_msg);
+               if (res.err_msg == "get_brand_wcpay_request:ok") {
+				   
+				   window.location.reload();
+
+               } else {
+				   window.Fancylab.Alert("系统忙，请稍候再试。" + res.err_msg);
+
+               }
+
+             });
+
+        } else {
+
+			window.Fancylab.Alert("系统忙，请稍候再试。");
+
+        }
+      },
+      error:function(XMLHttpRequest, textStatus, errorThrown) {
+//            alert(XMLHttpRequest.status);
+//            alert(XMLHttpRequest.readyState);
+//            alert(textStatus);
+			  window.Fancylab.Alert("系统忙，请稍候再试。");
+
+      },
+      complete: function () {
+		  $button.prop('disabled', false).find('span.text').text(btn_text).siblings('span.loader').hide();
+      }
+
+    });
+	
+  });
+  
+}
 
 </script>

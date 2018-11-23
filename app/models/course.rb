@@ -4,6 +4,7 @@ class Course < ActiveRecord::Base
   friendly_id :slug_candidates, use: :slugged
   
   has_and_belongs_to_many :sub_courses,->{where deleted: false}
+  has_and_belongs_to_many :users
   
   def slug_candidates
     [

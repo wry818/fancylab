@@ -84,6 +84,10 @@ module FancyLab
         
         ENV['CLOUDINARY_URL']= 'cloudinary://195568989381351:wTcmdQ4UvTIjJy-2cVRykf-HiSo@jli'
 
+        # # test
+        # ENV['WEIXIN_APPID'] = 'wxbd2427d5c32cbff6'
+        # ENV['WEIXIN_APP_SECRET'] = '5fe619dff86284d07b9e301aca4bd2f3'
+        
         ENV['WEIXIN_APPID'] = 'wxc2251da36f59ced4'
         ENV['WEIXIN_APP_SECRET'] = 'cac0b5aec6aef1884138bb4970d5e54d'
         ENV['WEIXIN_API_KEY'] = '7KcRATv1Ino3mdopKaPGQQ7TtkNySuAm'
@@ -97,8 +101,7 @@ module FancyLab
         # config.action_controller.consider_all_requests_local = false
 
         config.exceptions_app = self.routes
-        # ENV['WEIXIN_APPID'] = 'wxbd2427d5c32cbff6'
-        # ENV['WEIXIN_APP_SECRET'] = '5fe619dff86284d07b9e301aca4bd2f3'
+        
         config.express_key='2c40a2e81f354f02b052e3ba58de615c'
         config.express_uid='53100'
     end

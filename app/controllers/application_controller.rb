@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-    # before_action :get_wechat_sns, if: :is_wechat_browser?
+    before_action :get_wechat_sns, if: :is_wechat_browser?
     # Prevent CSRF attacks by raising an exception.
     # For APIs, you may want to use :null_session instead.
     protect_from_forgery with: :exception
@@ -84,10 +84,41 @@ class ApplicationController < ActionController::Base
           sns_info = $wechat_client.get_oauth_access_token(params[:code])
 
           if sns_info.result["openid"] && sns_info.result["access_token"] && sns_info.result["errcode"] != "40029"
+              
               session[:openid] = sns_info.result["openid"]
               session[:access_token] = sns_info.result["access_token"]
               session[:expires_in] = sns_info.result["expires_in"]
-  
+              
+              user = User.find_by openid: session[:openid]
+
+              if !user
+                
+                logger.info "88888888888"
+                
+                user_info = $wechat_client.get_oauth_userinfo(session[:openid], session[:access_token])
+
+                if user_info.result["errcode"] != "40003"
+                  
+                  nickname = user_info.result["nickname"]
+                  headimgurl = user_info.result["headimgurl"]
+                  
+                  user = User.new
+                  user.nickname = nickname
+                  user.headimgurl = headimgurl
+                  user.openid = session[:openid]
+                  user.save
+                  
+                end
+                
+              else
+                
+                logger.info "9999999999"
+                
+              end
+              
+              logger.info "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+              logger.info session[:openid]
+              
               if params[:is_test]
           
                 param_url = ""
@@ -98,7 +129,7 @@ class ApplicationController < ActionController::Base
                 # logger.info "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
                 # logger.info param_url
     
-                url = "http://test.11haoonline.com" + request.path + "?openid=" + sns_info.result["openid"] + "&access_token=" + sns_info.result["access_token"] + param_url
+                url = "http://test.fancylabx.com" + request.path + "?openid=" + sns_info.result["openid"] + "&access_token=" + sns_info.result["access_token"] + param_url
     
                 redirect_to url and return
               end
@@ -114,9 +145,9 @@ class ApplicationController < ActionController::Base
 
           if Rails.env.test?
             if request.path == "/"
-              redirect_uri = "http://www.11haoonline.com?is_test=1"
+              redirect_uri = "http://www.fancylabx.com?is_test=1"
             else
-              redirect_uri = "http://www.11haoonline.com" + request.path + "?is_test=1"  
+              redirect_uri = "http://www.fancylabx.com" + request.path + "?is_test=1"  
             end
       
             param_url = ""
@@ -148,7 +179,7 @@ class ApplicationController < ActionController::Base
           # logger.info "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
           # logger.info param_url
     
-          url = "http://test.11haoonline.com" + request.path + "?openid=" + session[:openid] + "&access_token=" + session[:access_token] + param_url
+          url = "http://test.fancylabx.com" + request.path + "?openid=" + session[:openid] + "&access_token=" + session[:access_token] + param_url
           # logger.info url
           redirect_to url and return
         end

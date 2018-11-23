@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181115082024) do
+ActiveRecord::Schema.define(version: 20181121033103) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -41,11 +41,18 @@ ActiveRecord::Schema.define(version: 20181115082024) do
   create_table "courses_sub_courses", id: false, force: true do |t|
     t.integer "course_id",     null: false
     t.integer "sub_course_id", null: false
-    t.integer "browser_count"
   end
 
   add_index "courses_sub_courses", ["course_id", "sub_course_id"], name: "index_courses_sub_courses_on_course_id_and_sub_course_id", using: :btree
   add_index "courses_sub_courses", ["sub_course_id", "course_id"], name: "index_courses_sub_courses_on_sub_course_id_and_course_id", using: :btree
+
+  create_table "courses_users", id: false, force: true do |t|
+    t.integer "user_id",   null: false
+    t.integer "course_id", null: false
+  end
+
+  add_index "courses_users", ["course_id", "user_id"], name: "index_courses_users_on_course_id_and_user_id", using: :btree
+  add_index "courses_users", ["user_id", "course_id"], name: "index_courses_users_on_user_id_and_course_id", using: :btree
 
   create_table "fancylab_videos", force: true do |t|
     t.string  "video_id"
@@ -53,6 +60,24 @@ ActiveRecord::Schema.define(version: 20181115082024) do
     t.string  "video_name"
     t.string  "video_url"
     t.integer "video_likes"
+  end
+
+  create_table "order_items", force: true do |t|
+    t.integer  "order_id"
+    t.integer  "course_id"
+    t.integer  "base_amount", default: 0, null: false
+    t.integer  "quantity"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "orders", force: true do |t|
+    t.integer  "user_id"
+    t.string   "transaction_id"
+    t.string   "out_trade_no"
+    t.integer  "status"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "shop_urls", force: true do |t|
@@ -72,10 +97,19 @@ ActiveRecord::Schema.define(version: 20181115082024) do
     t.integer  "course_type"
     t.integer  "browser_count"
     t.boolean  "deleted",             default: false
+    t.string   "video_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   add_index "sub_courses", ["slug"], name: "index_sub_courses_on_slug", unique: true, using: :btree
+
+  create_table "users", force: true do |t|
+    t.string   "nickname"
+    t.string   "headimgurl"
+    t.string   "openid"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
 end

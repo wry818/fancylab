@@ -1,21 +1,9 @@
 <div id="course_home">
-	<div class="bxslider-container">
-		<div id="bxslider" class="bxslider">
-			<% @advertisement_images.each do |advertisement_image| %>
-  		  		<div>
-                    <%= cl_image_tag advertisement_image.image_id %>
-  		  		</div>
-			<% end %>
-		</div>
-	</div>
 	<div class="memberPart">
 	    <table class="table table-borderless" style="height: 40px;">
 	      <tr>
-	        <td style="width: 50%; padding: 6px; padding-left:0;">
+	        <td style="padding-left:0;">
 	          <span class="partTitle fbold">课程列表</span> 
-	        </td>
-	        <td style="padding: 6px; padding-right:0; text-align:right">
-	          <a href="<%= course_all_path %>"><span class="selectAll fs-11 cgrey">查看全部 &gt; </span></a>
 	        </td>
 	      </tr>
 	    </table>
@@ -57,14 +45,6 @@
 
 <script>
 $(document).ready(function(){
-			
-  $("#bxslider").bxSlider({
-  	auto: true,
-	pager: true,
-	controls: false,
-	preloadImages: "visible",
-	  pause: 2000
-  });
   
   $(".list-item").off("click").click(function () {
      var url = $(this).data("url");

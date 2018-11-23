@@ -1,0 +1,27 @@
+<div id="buy_alert" class="overlay" style="display: none">
+	<%= image_tag "exclamation_circle.png", class: "exclamation_circle_icon" =%>
+	<p>购买课程后才能观看</p>
+</div>
+
+<div id="wx_pay_modal" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="wxPayModal" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header clearfix">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+			</div>
+			<div class="modal-body">
+				<div class="wx-qr-code">
+					<h3>
+						请使用微信扫码支付
+					</h3>
+				</div> 
+				<div class="qr-code">
+					<img id="wx_pay_qrcode_image" style="display: none" />
+				</div> 
+				<div class="pay-amount fs-14"> 
+					金额: <span>￥28</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
